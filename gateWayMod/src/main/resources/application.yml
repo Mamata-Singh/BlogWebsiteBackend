@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: mamata-api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: mamata-login
+          uri: lb://mamata-login
+          predicates:
+          - Path=/auth/**
+        - id: mamata-dashboard
+          uri: lb://mamata-dashboard
+          predicates:
+          - Path=/dashboard/**
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+          corsConfigurations:
+            '[/**]':
+              allowedOrigins: "*"
+              allowedMethods: "*"
+              allowedHeaders: "*"
+server:
+  port: 9093
+eureka:
+  instance:
+    hostname: localhost
